@@ -1,0 +1,38 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.log
+
+# Local databases
+*.db
+*.db-wal
+*.db-shm
+*.bak
+data/
+.env
+local.properties
+
+# Local training data/exports
+raw.xlsx
+X_train.csv
+X_test.csv
+y_train.csv
+y_test.csv
+
+# Node / Capacitor / Android build outputs
+node_modules/
+.gradle/
+build/
+dist/
+*.apk
+*.aab
+
+# IDE files
+.idea/
+.vscode/
+
+# Secrets / signing keys
+*.jks
+*.keystore

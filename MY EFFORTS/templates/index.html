@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <meta name="theme-color" content="#0f766e">
+  <title>Career Prediction Form | CareerForge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/chip_select.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='career_form.css') }}">
+</head>
+<body class="predictor-page">
+  <div class="ambient-bg" aria-hidden="true">
+    <span class="mesh mesh-one"></span>
+    <span class="mesh mesh-two"></span>
+    <span class="mesh mesh-three"></span>
+    <span class="mesh mesh-four"></span>
+  </div>
+
+  <nav class="topbar">
+    <a class="brand" href="{{ url_for('home') }}" aria-label="CareerForge home">
+      <span class="brand-mark">CP</span>
+      <span>CareerForge</span>
+    </a>
+    <div class="topbar-actions">
+      {% if user %}
+        <span class="user-pill">Welcome, <strong>{{ user.username }}</strong></span>
+        <a class="nav-link" href="{{ url_for('history') }}">History</a>
+        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a class="nav-link primary" href="{{ url_for('home') }}">Login</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <main class="app-shell">
+    <section class="form-hero">
+      <div>
+        <span class="eyebrow">Educational Data Mining + ML Career Intelligence</span>
+        <h1>Career Prediction Form</h1>
+        <p>Enter academic performance, skill ratings, learning habits, and interests. The model will convert them into a practical career role prediction.</p>
+        <div class="hero-highlights" aria-label="Prediction strengths">
+          <span>Smart validation</span>
+          <span>Skill-weighted signals</span>
+          <span>Instant role output</span>
+        </div>
+      </div>
+      <aside class="hero-panel" aria-label="Prediction inputs summary">
+        <div class="panel-header">
+          <span>Profile Strength</span>
+          <strong id="profileScore">0%</strong>
+        </div>
+        <div class="profile-meter"><span id="profileMeter"></span></div>
+        <div class="panel-metric"><span>Subjects</span><strong>9</strong></div>
+        <div class="panel-metric"><span>Skill Signals</span><strong>4</strong></div>
+        <div class="panel-metric"><span>Preferences</span><strong>5</strong></div>
+      </aside>
+    </section>
+
+    <form id="careerForm" class="prediction-card" autocomplete="off" novalidate>
+      <section class="form-section">
+        <div class="section-heading">
+          <span class="step">01</span>
+          <div>
+            <h2>Academic Scores</h2>
+            <p>Use percentage values from 35 to 100. If a score is below 35, the form will show a warning before prediction.</p>
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <label class="field" for="os">
+            <span class="field-label">Operating Systems <strong>*</strong></span>
+            <input id="os" name="Acedamic percentage in Operating Systems" type="number" min="35" max="100" placeholder="Ex: 82" required>
+          </label>
+          <label class="field" for="algo">
+            <span class="field-label">Algorithms <strong>*</strong></span>
+            <input id="algo" name="percentage in Algorithms" type="number" min="35" max="100" placeholder="Ex: 78" required>
+          </label>
+          <label class="field" for="prog">
+            <span class="field-label">Programming Concepts <strong>*</strong></span>
+            <input id="prog" name="Percentage in Programming Concepts" type="number" min="35" max="100" placeholder="Ex: 88" required>
+          </label>
+          <label class="field" for="se">
+            <span class="field-label">Software Engineering <strong>*</strong></span>
+            <input id="se" name="Percentage in Software Engineering" type="number" min="35" max="100" placeholder="Ex: 80" required>
+          </label>
+          <label class="field" for="net">
+            <span class="field-label">Computer Networks <strong>*</strong></span>
+            <input id="net" name="Percentage in Computer Networks" type="number" min="35" max="100" placeholder="Ex: 75" required>
+          </label>
+          <label class="field" for="elec">
+            <span class="field-label">Electronics Subjects <strong>*</strong></span>
+            <input id="elec" name="Percentage in Electronics Subjects" type="number" min="35" max="100" placeholder="Ex: 70" required>
+          </label>
+          <label class="field" for="arch">
+            <span class="field-label">Computer Architecture <strong>*</strong></span>
+            <input id="arch" name="Percentage in Computer Architecture" type="number" min="35" max="100" placeholder="Ex: 76" required>
+          </label>
+          <label class="field" for="math">
+            <span class="field-label">Mathematics <strong>*</strong></span>
+            <input id="math" name="Percentage in Mathematics" type="number" min="35" max="100" placeholder="Ex: 84" required>
+          </label>
+          <label class="field" for="comm">
+            <span class="field-label">Communication Skills <strong>*</strong></span>
+            <input id="comm" name="Percentage in Communication skills" type="number" min="35" max="100" placeholder="Ex: 74" required>
+          </label>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-heading">
+          <span class="step">02</span>
+          <div>
+            <h2>Skill Ratings</h2>
+            <p>Rate practical ability and activity participation.</p>
+          </div>
+        </div>
+
+        <div class="field-grid compact">
+          <label class="field" for="logic">
+            <span class="field-label">Logical Quotient</span>
+            <div class="range-row">
+              <input type="range" id="logic" name="Logical quotient rating" min="1" max="10" value="5">
+              <output id="logicOutput">5</output>
+            </div>
+          </label>
+          <label class="field" for="code">
+            <span class="field-label">Programming Skills</span>
+            <div class="range-row">
+              <input type="range" id="code" name="coding skills rating" min="1" max="10" value="5">
+              <output id="codeOutput">5</output>
+            </div>
+          </label>
+          <label class="field" for="speak">
+            <span class="field-label">Public Speaking</span>
+            <div class="range-row">
+              <input type="range" id="speak" name="public speaking points" min="1" max="10" value="5">
+              <output id="speakOutput">5</output>
+            </div>
+          </label>
+          <label class="field" for="hack">
+            <span class="field-label">Hackathons Attended</span>
+            <input id="hack" name="hackathons" type="number" min="0" max="9" placeholder="0 to 9" required>
+          </label>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-heading">
+          <span class="step">03</span>
+          <div>
+            <h2>Learning Profile</h2>
+            <p>Choose the experiences and preferences that best describe the student.</p>
+          </div>
+        </div>
+
+        <div class="field-grid compact">
+          <label class="field" for="self">
+            <span class="field-label">Self-Learning Capability</span>
+            <select id="self" name="self-learning capability?">
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </label>
+          <label class="field" for="extra">
+            <span class="field-label">Extra Courses Done</span>
+            <select id="extra" name="Extra-courses did">
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </label>
+          <label class="field" for="team">
+            <span class="field-label">Worked in Teams Before</span>
+            <select id="team" name="worked in teams ever?">
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </label>
+          <label class="field" for="read">
+            <span class="field-label">Reading/Writing Skills</span>
+            <select id="read" multiple class="chip-enabled">
+              <option value="1">Excellent - Strong communication</option>
+              <option value="2">Good - Handles technical content</option>
+              <option value="3">Average - Needs improvement</option>
+              <option value="4">Below Average - Struggles with comprehension</option>
+              <option value="5">Poor - Needs major improvement</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-heading">
+          <span class="step">04</span>
+          <div>
+            <h2>Career Preferences</h2>
+            <p>Select multiple options where applicable. Use custom entries when needed.</p>
+          </div>
+        </div>
+
+        <div class="stacked-fields">
+          <label class="field" for="cert">
+            <span class="field-label">Certifications</span>
+            <select id="cert" multiple class="chip-enabled">
+              <option value="1">Python Programming</option>
+              <option value="2">Java Full Stack</option>
+              <option value="3">Data Science</option>
+              <option value="4">Machine Learning</option>
+              <option value="5">Cloud Computing (AWS / Azure)</option>
+              <option value="6">Cyber Security</option>
+              <option value="7">Web Development</option>
+              <option value="8">Database Management (SQL)</option>
+              <option value="9">Artificial Intelligence</option>
+              <option value="other">Other certificate</option>
+            </select>
+          </label>
+
+          <label class="field" for="work">
+            <span class="field-label">Workshops</span>
+            <select id="work" multiple class="chip-enabled">
+              <option value="1">Python Programming Workshop</option>
+              <option value="2">AI & Machine Learning Bootcamp</option>
+              <option value="3">Web Development Workshop</option>
+              <option value="4">Data Analytics with Excel</option>
+              <option value="5">Cyber Security Awareness Workshop</option>
+              <option value="6">Cloud Computing (AWS / Azure)</option>
+              <option value="7">Database & SQL Workshop</option>
+              <option value="8">Mobile App Development Workshop</option>
+              <option value="9">IoT (Internet of Things)</option>
+              <option value="other">Other workshop</option>
+            </select>
+          </label>
+
+          <label class="field" for="career">
+            <span class="field-label">Interested Career Area</span>
+            <select id="career" multiple class="chip-enabled">
+              <option value="1">Software Development</option>
+              <option value="2">Web Development</option>
+              <option value="3">Data Science / Machine Learning</option>
+              <option value="4">Artificial Intelligence</option>
+              <option value="5">Cybersecurity</option>
+              <option value="6">Cloud Computing</option>
+              <option value="7">Networking & Infrastructure</option>
+              <option value="8">Database Administration</option>
+              <option value="9">UI/UX Design</option>
+              <option value="10">Research & Teaching</option>
+              <option value="other">Other career area</option>
+            </select>
+          </label>
+
+          <label class="field" for="company">
+            <span class="field-label">Preferred Company Type</span>
+            <select id="company" multiple class="chip-enabled">
+              <option value="1">Startup</option>
+              <option value="2">Product-Based Company</option>
+              <option value="3">Service-Based Company</option>
+              <option value="4">Government Organization</option>
+              <option value="5">Research Institute</option>
+              <option value="6">Non-Profit / NGO</option>
+              <option value="7">Freelance / Self-Employed</option>
+              <option value="8">Abroad / MNC Company</option>
+              <option value="other">Other company type</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="multiCustomRow" class="custom-row" aria-hidden="true">
+          <input id="multiCustomInput" class="multi-input" type="text" placeholder="Enter custom value">
+          <div class="multi-actions">
+            <button type="button" id="multiAddBtn" class="small-btn primary">Add</button>
+            <button type="button" id="multiCancelBtn" class="small-btn">Cancel</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <button id="predictBtn" type="submit">Predict Career</button>
+        <button id="resetBtn" type="reset">Reset</button>
+      </div>
+
+      <div id="result" class="result-box" role="status" aria-live="polite"></div>
+    </form>
+  </main>
+
+  <div id="eligModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-labelledby="eligTitle">
+      <h3 id="eligTitle">Check your input</h3>
+      <p id="eligMsg"></p>
+      <div class="modal-actions"><button id="eligClose" type="button">OK</button></div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const careerForm = document.getElementById('careerForm');
+    const predictBtn = document.getElementById('predictBtn');
+    const resultEl = document.getElementById('result');
+    const eligModal = document.getElementById('eligModal');
+    const eligTitle = document.getElementById('eligTitle');
+    const eligMsg = document.getElementById('eligMsg');
+    const eligClose = document.getElementById('eligClose');
+    const percentIds = ['os','algo','prog','se','net','elec','arch','math','comm'];
+    const profileScore = document.getElementById('profileScore');
+    const profileMeter = document.getElementById('profileMeter');
+
+    function showModal(msg, title = 'Check your input'){
+      eligTitle.textContent = title;
+      eligMsg.textContent = msg;
+      eligModal.style.display='flex';
+      eligModal.setAttribute('aria-hidden','false');
+    }
+    function hideModal(){ eligModal.style.display='none'; eligModal.setAttribute('aria-hidden','true'); }
+    eligClose.addEventListener('click', hideModal);
+    eligModal.addEventListener('click', (ev)=>{ if(ev.target===eligModal) hideModal(); });
+
+    function updateOutput(inputId, outputId) {
+      const input = document.getElementById(inputId);
+      const output = document.getElementById(outputId);
+      if (!input || !output) return;
+      output.value = input.value;
+      input.addEventListener('input', () => output.value = input.value);
+    }
+
+    updateOutput('logic', 'logicOutput');
+    updateOutput('code', 'codeOutput');
+    updateOutput('speak', 'speakOutput');
+
+    function markPercentInput(el) {
+      const raw = el.value.trim();
+      el.classList.remove('input-warning');
+      if (!raw) return true;
+      const v = Number(raw);
+      if(!isFinite(v)) return true;
+      if(v > 100) {
+        el.value = 100;
+        return true;
+      }
+      if(v < 35) {
+        el.classList.add('input-warning');
+        return false;
+      }
+      return true;
+    }
+
+    function updateProfileStrength() {
+      if (!profileScore || !profileMeter) return;
+      const filledAcademic = percentIds.filter(id => document.getElementById(id).value.trim()).length;
+      const extraFields = ['hack'];
+      const filledExtra = extraFields.filter(id => document.getElementById(id).value.trim()).length;
+      const selectedGroups = ['cert', 'work', 'read', 'career', 'company'].filter(id => document.getElementById(id).selectedOptions.length).length;
+      const total = percentIds.length + extraFields.length + 5;
+      const filled = filledAcademic + filledExtra + selectedGroups;
+      const score = Math.round((filled / total) * 100);
+      profileScore.textContent = score + '%';
+      profileMeter.style.width = score + '%';
+    }
+
+    percentIds.forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.addEventListener('input', ()=>{
+        const raw = el.value.trim();
+        const v = Number(el.value);
+        if(!isFinite(v)) return;
+        if(v > 100) { el.value = 100; showModal('Percentage values must be 100 or below.'); }
+        if(raw && (raw === '0' || raw.length >= 2) && v < 35) {
+          el.classList.add('input-warning');
+          showModal('Please enter a number greater than or equal to 35.', 'Minimum mark required');
+        } else {
+          el.classList.remove('input-warning');
+        }
+        updateProfileStrength();
+      });
+      el.addEventListener('blur', () => {
+        if (!markPercentInput(el)) {
+          showModal('Please enter a number greater than or equal to 35.', 'Minimum mark required');
+        }
+        updateProfileStrength();
+      });
+    });
+
+    const hackEl = document.getElementById('hack');
+    if(hackEl){
+      hackEl.addEventListener('input', ()=>{
+        const v = Number(hackEl.value || 0);
+        if(!isFinite(v)) return;
+        if(v > 9){ hackEl.value = 9; showModal('Hackathons must be between 0 and 9.'); }
+        if(v < 0) hackEl.value = 0;
+        updateProfileStrength();
+      });
+    }
+
+    (function setupMulti(){
+      const selects = ['cert','work','career','company'];
+      const multiRow = document.getElementById('multiCustomRow');
+      const input = document.getElementById('multiCustomInput');
+      const addBtn = document.getElementById('multiAddBtn');
+      const cancelBtn = document.getElementById('multiCancelBtn');
+      let activeSelect = null;
+
+      function showFor(sel){
+        activeSelect = sel;
+        sel.closest('.field').appendChild(multiRow);
+        multiRow.style.display='grid';
+        multiRow.setAttribute('aria-hidden','false');
+        input.value='';
+        input.focus();
+      }
+
+      function hide(){
+        multiRow.style.display='none';
+        multiRow.setAttribute('aria-hidden','true');
+        activeSelect = null;
+      }
+
+      selects.forEach(id=>{
+        const el = document.getElementById(id);
+        if(!el) return;
+        el.addEventListener('change', (e)=>{
+          const sel = e.target;
+          const hasOther = Array.from(sel.selectedOptions).some(o=>o.value==='other');
+          updateProfileStrength();
+          if(hasOther) showFor(sel);
+          else if(activeSelect===sel) hide();
+        });
+      });
+
+      addBtn.addEventListener('click', ()=>{
+        const text = (input.value||'').trim();
+        if(!text || !activeSelect) return;
+        const sel = activeSelect;
+        const existing = Array.from(sel.options).find(o=>o.textContent.trim().toLowerCase()===text.toLowerCase());
+        if(existing) existing.selected = true;
+        else {
+          const opt = document.createElement('option');
+          opt.value = 'custom-' + Date.now();
+          opt.textContent = text;
+          opt.selected = true;
+          sel.insertBefore(opt, sel.options[0] || null);
+        }
+        Array.from(sel.options).forEach(o=>{ if(o.value==='other') o.selected=false; });
+        sel.dispatchEvent(new Event('change', {bubbles:true}));
+        hide();
+      });
+
+      cancelBtn.addEventListener('click', ()=>{
+        if(!activeSelect) return;
+        Array.from(activeSelect.options).forEach(o=>{ if(o.value==='other') o.selected=false; });
+        activeSelect.dispatchEvent(new Event('change',{bubbles:true}));
+        hide();
+      });
+
+      input.addEventListener('keydown', (e)=>{
+        if(e.key==='Enter'){ e.preventDefault(); addBtn.click(); }
+        if(e.key==='Escape'){ e.preventDefault(); cancelBtn.click(); }
+      });
+    })();
+
+    careerForm.addEventListener('submit', async function(e){
+      e.preventDefault();
+      resultEl.textContent = '';
+      resultEl.classList.remove('show', 'error');
+
+      let hasMissingAcademic = false;
+      let firstLowScore = null;
+      percentIds.forEach(id => {
+        const el = document.getElementById(id);
+        const raw = el.value.trim();
+        const v = Number(raw);
+        if (!raw || !isFinite(v)) {
+          hasMissingAcademic = true;
+          return;
+        }
+        if (v < 35) {
+          el.classList.add('input-warning');
+          if (!firstLowScore) firstLowScore = el;
+        } else {
+          el.classList.remove('input-warning');
+        }
+      });
+
+      if (hasMissingAcademic || !document.getElementById('hack').value.trim()) {
+        showModal('Please fill all academic scores and hackathon count before prediction.');
+        return;
+      }
+
+      if (firstLowScore) {
+        firstLowScore.focus();
+        showModal('Please enter a number greater than or equal to 35.', 'Minimum mark required');
+        return;
+      }
+
+      const certCount = document.getElementById('cert').selectedOptions.length;
+      const workCount = document.getElementById('work').selectedOptions.length;
+      const readCount = document.getElementById('read') ? document.getElementById('read').selectedOptions.length : 0;
+      const careerCount = document.getElementById('career').selectedOptions.length;
+      const companyCount = document.getElementById('company').selectedOptions.length;
+
+      const payload = {
+        "Acedamic percentage in Operating Systems": Number(document.getElementById('os').value || 0),
+        "percentage in Algorithms": Number(document.getElementById('algo').value || 0),
+        "Percentage in Programming Concepts": Number(document.getElementById('prog').value || 0),
+        "Percentage in Software Engineering": Number(document.getElementById('se').value || 0),
+        "Percentage in Computer Networks": Number(document.getElementById('net').value || 0),
+        "Percentage in Electronics Subjects": Number(document.getElementById('elec').value || 0),
+        "Percentage in Computer Architecture": Number(document.getElementById('arch').value || 0),
+        "Percentage in Mathematics": Number(document.getElementById('math').value || 0),
+        "Percentage in Communication skills": Number(document.getElementById('comm').value || 0),
+        "Logical quotient rating": Number(document.getElementById('logic').value || 0),
+        "hackathons": Number(document.getElementById('hack').value || 0),
+        "coding skills rating": Number(document.getElementById('code').value || 0),
+        "public speaking points": Number(document.getElementById('speak').value || 0),
+        "self-learning capability?": Number(document.getElementById('self').value || 0),
+        "Extra-courses did": Number(document.getElementById('extra').value || 0),
+        "certifications": certCount,
+        "workshops": workCount,
+        "reading and writing skills": readCount,
+        "interested career area": careerCount,
+        "Type of company want to settle in?": companyCount,
+        "worked in teams ever?": Number(document.getElementById('team').value || 0)
+      };
+
+      predictBtn.disabled = true;
+      predictBtn.textContent = 'Predicting...';
+      resultEl.textContent = 'Analyzing student profile...';
+      resultEl.classList.add('show');
+
+      try{
+        const res = await fetch('/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const json = await res.json();
+
+        if(!res.ok){
+          resultEl.textContent = 'Server error: ' + (json.error || res.status);
+          resultEl.classList.add('error');
+        } else if(json.predicted_job_role){
+          resultEl.innerHTML = `<span>Predicted Career Role</span><strong>${json.predicted_job_role}</strong>`;
+        } else if(json.error){
+          resultEl.textContent = 'Error: ' + json.error;
+          resultEl.classList.add('error');
+        } else {
+          resultEl.textContent = 'Unexpected server response.';
+          resultEl.classList.add('error');
+        }
+      } catch(err){
+        console.error(err);
+        resultEl.textContent = 'Cannot connect to backend.';
+        resultEl.classList.add('error');
+      } finally {
+        predictBtn.disabled = false;
+        predictBtn.textContent = 'Predict Career';
+      }
+    });
+
+    updateProfileStrength();
+  })();
+  </script>
+  <script src="{{ url_for('static', filename='js/chip_select.js') }}"></script>
+</body>
+</html>

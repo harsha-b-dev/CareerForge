@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin — All Predictions</title>
+  <style>
+    body{ font-family: Arial, sans-serif; background:#f6f8fb; margin:0; padding:20px; color:#111; }
+    .wrap{ max-width:1100px; margin:14px auto; }
+    .top{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;}
+    a.btn{ background:#007cf0; color:white; padding:8px 12px; border-radius:8px; text-decoration:none; font-weight:700; }
+    table{ width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 8px 30px rgba(3,12,30,0.06); }
+    th,td{ padding:10px 12px; border-bottom:1px solid #eef2f7; text-align:left; font-size:13px; }
+    th{ background:#fbfcff; font-weight:800; color:#0b1220; }
+    pre{ margin:0; font-size:12px; background:#fbfcff; padding:6px; border-radius:6px; border:1px solid #eef2f7; overflow:auto; max-height:120px; }
+    .small { font-size:12px; color:#687185; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h2>All Predictions</h2>
+        <div class="small">Admin: {{ user.username }}</div>
+      </div>
+      <div>
+        <a class="btn" href="{{ url_for('export_csv') }}">Export CSV</a>
+        <a class="btn" style="background:#4a5568" href="{{ url_for('index') }}">Back to Form</a>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>User</th>
+          <th>Predicted Role</th>
+          <th>Confidence</th>
+          <th>Created At (UTC)</th>
+          <th>Input</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for it in items %}
+          <tr>
+            <td>{{ it.id }}</td>
+            <td>
+              {% if it.username %}<strong>{{ it.username }}</strong><br><span class="small">{{ it.email }}</span>{% else %}Anonymous{% endif %}
+            </td>
+            <td>{{ it.predicted_role }}</td>
+            <td>{% if it.confidence %}{{ ((it.confidence * 100)|round(0)) ~ '%' }}{% else %}-{% endif %}</td>
+            <td class="small">{{ it.created_at }}</td>
+            <td><pre>{{ it.input | tojson(indent=2) }}</pre></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

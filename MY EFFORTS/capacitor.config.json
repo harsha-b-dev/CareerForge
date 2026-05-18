@@ -1,0 +1,10 @@
+﻿{
+  "appId": "com.bhoothara.careerforge",
+  "appName": "CareerForge",
+  "webDir": "build",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://careerforge.onrender.com",
+    "cleartext": false
+  }
+}

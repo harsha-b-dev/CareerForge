@@ -1,0 +1,70 @@
+.chip-select {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.chip-list {
+  min-height: 44px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid #dbe5f1;
+  border-radius: 8px;
+  background: #fbfdff;
+}
+
+.chip-list.is-empty {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.chip-list.is-empty::before {
+  content: "No selections yet";
+  font-size: 14px;
+}
+
+.chip {
+  max-width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 7px 8px 7px 12px;
+  background: #eaf4ff;
+  color: #0e5fd0;
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.chip span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chip button {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(14, 95, 208, .12);
+  color: #0e5fd0;
+  font-weight: 900;
+  line-height: 1;
+  padding: 0;
+}
+
+.chip button:hover {
+  background: rgba(14, 95, 208, .22);
+}
+
+.chip-select select {
+  width: 100%;
+}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Career Prediction History</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f3f9;
+      margin: 0;
+      padding: 20px;
+      color: #111;
+    }
+    .wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    h2 {
+      text-align: center;
+      color: #007cf0;
+      margin-bottom: 25px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #eaeaea;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background: #f8f9fc;
+      font-weight: bold;
+      color: #222;
+    }
+    tr:hover {
+      background: #f4f8ff;
+    }
+    pre {
+      margin: 0;
+      background: #f9fafc;
+      border: 1px solid #eef2f6;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 12px;
+      max-height: 100px;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .btn {
+      background: #007cf0;
+      color: #fff;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .btn:hover {
+      background: #005bb5;
+    }
+    .meta {
+      font-size: 12px;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      tr {
+        margin-bottom: 15px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      }
+      th {
+        display: none;
+      }
+      td {
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+      }
+      td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #007cf0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <h2>📜 Your Prediction History</h2>
+        <div class="meta">Logged in as: <strong>{{ user.username }}</strong> ({{ user.email }})</div>
+      </div>
+      <div>
+        <a class="btn" href="{{ url_for('index') }}">🔙 Back to Form</a>
+      </div>
+    </div>
+
+    {% if items and items|length > 0 %}
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Predicted Role</th>
+          <th>Confidence</th>
+          <th>Created At (UTC)</th>
+          <th>Input Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for it in items %}
+        <tr>
+          <td data-label="#"> {{ it.id }} </td>
+          <td data-label="Role"> <strong style="color:#0366d6;">{{ it.predicted_role }}</strong> </td>
+          <td data-label="Confidence"> {% if it.confidence %}{{ ((it.confidence * 100)|round(0)) ~ '%' }}{% else %}-{% endif %} </td>
+          <td data-label="Time" class="meta">{{ it.created_at }}</td>
+          <td data-label="Input"><pre>{{ it.input | tojson(indent=2) }}</pre></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p style="text-align:center; color:#555; margin-top:30px;">
+        💤 No predictions yet. Go to <a href="{{ url_for('index') }}">Career Form</a> to make your first prediction!
+      </p>
+    {% endif %}
+  </div>
+</body>
+</html>

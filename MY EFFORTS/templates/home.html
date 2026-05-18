@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CareerForge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #18232f;
+      --muted: #6b7280;
+      --line: #d8e1df;
+      --panel: #ffffff;
+      --soft: #f5faf8;
+      --navy: #22313f;
+      --blue: #2563eb;
+      --cyan: #0f766e;
+      --green: #16a34a;
+      --amber: #f59e0b;
+      --coral: #f9736b;
+      --violet: #8b5cf6;
+      --shadow: 0 28px 84px rgba(38, 54, 70, .14);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(15, 118, 110, .18), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(249, 115, 107, .16), transparent 28%),
+        radial-gradient(circle at 50% 92%, rgba(139, 92, 246, .12), transparent 32%),
+        linear-gradient(135deg, #f7fcfb 0%, #f6f0ff 48%, #fff8ed 100%);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; }
+
+    .shell {
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(216, 225, 223, .85);
+      background: rgba(255, 255, 255, .78);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.18), transparent),
+        linear-gradient(135deg, var(--cyan), var(--coral));
+      box-shadow: 0 14px 30px rgba(15, 118, 110, .22);
+      font-weight: 900;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .welcome {
+      color: var(--muted);
+      font-weight: 600;
+      margin-right: 4px;
+    }
+
+    .btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      padding: 0 16px;
+      font-weight: 800;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      background: white;
+      color: var(--ink);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(16, 32, 51, .1); }
+    .btn-primary { border-color: transparent; color: white; background: linear-gradient(135deg, var(--cyan), var(--coral), var(--violet)); }
+    .btn-dark { border-color: transparent; color: white; background: var(--navy); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
+      gap: 44px;
+      align-items: center;
+      padding: 64px 0 42px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #0f5f58;
+      background: rgba(15, 118, 110, .12);
+      border: 1px solid rgba(15, 118, 110, .22);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 6vw, 78px);
+      line-height: .96;
+      letter-spacing: 0;
+      max-width: 780px;
+      background: linear-gradient(135deg, #18232f 8%, #0f766e 46%, #f9736b 74%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy {
+      margin: 22px 0 0;
+      color: #42566f;
+      font-size: 18px;
+      line-height: 1.7;
+      max-width: 700px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 34px;
+      max-width: 680px;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, .72);
+      border: 1px solid rgba(216, 225, 223, .9);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    .stat strong { display: block; font-size: 24px; }
+    .stat span { color: var(--muted); font-size: 13px; font-weight: 700; }
+
+    .insight-board {
+      border-radius: 8px;
+      background: var(--panel);
+      border: 1px solid rgba(219, 229, 241, .95);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .board-top {
+      padding: 18px;
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(24, 35, 47, .94), rgba(15, 118, 110, .9)),
+        url("{{ url_for('static', filename='images/bg.jpeg') }}") center/cover;
+    }
+
+    .board-top h2 { margin: 0; font-size: 18px; }
+    .board-top p { margin: 6px 0 0; color: rgba(255,255,255,.76); line-height: 1.5; }
+
+    .board-body { padding: 18px; display: grid; gap: 14px; }
+    .score-row { display: grid; grid-template-columns: 130px 1fr 44px; gap: 12px; align-items: center; font-weight: 800; font-size: 13px; }
+    .bar { height: 10px; border-radius: 999px; background: #e8eef6; overflow: hidden; }
+    .bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan), var(--coral), var(--violet)); }
+
+    .recommendation {
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 8px;
+      background: #fbfffd;
+      border: 1px solid var(--line);
+    }
+
+    .recommendation .icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: rgba(246, 166, 9, .16);
+      color: #8a5700;
+      font-weight: 900;
+    }
+
+    .recommendation strong { display: block; margin-bottom: 4px; }
+    .recommendation span { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding: 18px 0 68px;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,.86);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 18px 44px rgba(25, 47, 79, .08);
+    }
+
+    .feature-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .feature-card:nth-child(1) .feature-icon { color: #0f766e; background: rgba(15, 118, 110, .12); }
+    .feature-card:nth-child(2) .feature-icon { color: #b45309; background: rgba(245, 158, 11, .16); }
+    .feature-card:nth-child(3) .feature-icon { color: #7c3aed; background: rgba(139, 92, 246, .13); }
+    .feature-card h3 { margin: 0 0 8px; font-size: 18px; }
+    .feature-card p { margin: 0; color: var(--muted); line-height: 1.65; }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(9, 18, 30, .58);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+
+    .modal {
+      width: min(460px, 100%);
+      background: white;
+      border-radius: 8px;
+      padding: 26px;
+      box-shadow: 0 28px 80px rgba(0,0,0,.26);
+      border: 1px solid rgba(255,255,255,.6);
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      right: 16px;
+      top: 14px;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .close:hover { border-color: var(--line); color: var(--ink); background: #f8fafc; }
+    .modal h2 { margin: 0 42px 18px 0; font-size: 28px; letter-spacing: 0; }
+    .modal label { display: block; margin: 14px 0 7px; font-weight: 800; font-size: 13px; color: #334155; }
+    .modal input {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 14px;
+      font: inherit;
+      outline: none;
+      background: #fbfdff;
+    }
+    .modal input:focus { border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(15, 118, 110, .13); }
+    .submit { width: 100%; margin-top: 18px; min-height: 50px; border: 0; border-radius: 8px; background: linear-gradient(135deg, var(--cyan), var(--coral)); color: white; font: inherit; font-weight: 900; cursor: pointer; }
+    .forgot, .switch a { color: var(--cyan); font-weight: 800; }
+    .forgot { display: block; margin-top: 14px; text-align: center; }
+    .switch { text-align: center; color: var(--muted); margin-top: 16px; }
+    .msg-success, .msg-error { padding: 12px 14px; border-radius: 8px; margin-bottom: 14px; font-weight: 800; font-size: 14px; }
+    .msg-success { background: #ecfdf5; border: 1px solid #bbf7d0; color: #047857; }
+    .msg-error { background: #fff1f2; border: 1px solid #fecdd3; color: #be123c; }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 42px; }
+      .features { grid-template-columns: 1fr; }
+      .insight-board { max-width: 620px; }
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 28px, 1160px); }
+      .nav-inner { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+      .actions { justify-content: flex-start; width: 100%; }
+      .btn { flex: 1 1 auto; }
+      .stats { grid-template-columns: 1fr; }
+      .score-row { grid-template-columns: 96px 1fr 36px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="shell nav-inner">
+      <a class="brand" href="{{ url_for('home') }}" aria-label="CareerForge home">
+        <span class="mark">CP</span>
+        <span>CareerForge</span>
+      </a>
+      <div class="actions">
+        {% if user %}
+          <span class="welcome">Welcome, <strong>{{ user.username }}</strong></span>
+          <a class="btn" href="{{ url_for('history') }}">History</a>
+          <a class="btn btn-primary" href="{{ url_for('index') }}">Open Predictor</a>
+          <a class="btn" href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+          <button id="openLogin" class="btn" type="button">Login</button>
+          <button id="openSignup" class="btn btn-primary" type="button">Create Account</button>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Educational Data Mining + ML</div>
+        <h1>CareerForge</h1>
+        <p class="hero-copy">Convert academic scores, skills, certifications, and preferences into a clear career recommendation. Built for students who want a practical next step, not just another percentage table.</p>
+        <div class="hero-actions">
+          {% if user %}
+            <a class="btn btn-primary" href="{{ url_for('index') }}">Start Prediction</a>
+            <a class="btn" href="{{ url_for('history') }}">View Past Results</a>
+          {% else %}
+            <button id="openSignupHero" class="btn btn-primary" type="button">Start Free</button>
+            <button id="openLoginHero" class="btn" type="button">I Already Have an Account</button>
+          {% endif %}
+        </div>
+        <div class="stats" aria-label="Project highlights">
+          <div class="stat"><strong>18+</strong><span>student factors</span></div>
+          <div class="stat"><strong>ML</strong><span>role prediction</span></div>
+          <div class="stat"><strong>Fast</strong><span>instant results</span></div>
+        </div>
+      </div>
+
+      <aside class="insight-board" aria-label="Prediction preview">
+        <div class="board-top">
+          <h2>Career Readiness Snapshot</h2>
+          <p>A clean preview of how academic and skill signals become a recommendation.</p>
+        </div>
+        <div class="board-body">
+          <div class="score-row"><span>Programming</span><div class="bar"><span style="width:86%"></span></div><span>86</span></div>
+          <div class="score-row"><span>Math Logic</span><div class="bar"><span style="width:78%"></span></div><span>78</span></div>
+          <div class="score-row"><span>Communication</span><div class="bar"><span style="width:72%"></span></div><span>72</span></div>
+          <div class="recommendation">
+            <div class="icon">AI</div>
+            <div>
+              <strong>Likely Path: Data Science / ML</strong>
+              <span>High programming and analytical scores match data-focused roles.</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="features" aria-label="How it works">
+      <article class="feature-card">
+        <div class="feature-icon">01</div>
+        <h3>Enter Academic Signals</h3>
+        <p>Add subject percentages, logical quotient, public speaking, and technical ratings in one structured form.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">02</div>
+        <h3>Map Skills to Roles</h3>
+        <p>The model considers skills, workshops, certifications, teamwork, and learning preferences together.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">03</div>
+        <h3>Get a Career Result</h3>
+        <p>Receive a predicted job role and keep a logged history of earlier predictions after signing in.</p>
+      </article>
+    </section>
+  </main>
+
+  <div id="loginModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-labelledby="loginTitle">
+      <button class="close" id="closeLogin" type="button" aria-label="Close login">&times;</button>
+      <h2 id="loginTitle">Login</h2>
+      <div id="loginRegisteredMsg" class="msg-success" style="display:none;">Signup successful. Please log in with your credentials.</div>
+      <div id="loginErrorMsg" class="msg-error" style="display:none;"></div>
+      <form method="post" action="{{ url_for('login') }}">
+        <label for="loginUsername">Email or Username</label>
+        <input id="loginUsername" name="username" type="text" placeholder="harsha@example.com" required />
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" name="password" type="password" placeholder="Enter password" required />
+        <button class="submit" type="submit">Login</button>
+      </form>
+      <a class="forgot" href="#">Forgot Password?</a>
+      <div class="switch">Don't have an account? <a href="#" id="openSignupFromLogin">Create one</a></div>
+    </div>
+  </div>
+
+  <div id="signupModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-labelledby="signupTitle">
+      <button class="close" id="closeSignup" type="button" aria-label="Close signup">&times;</button>
+      <h2 id="signupTitle">Create Account</h2>
+      <div id="signupErrorMsg" class="msg-error" style="display:none;"></div>
+      <form method="post" action="{{ url_for('signup') }}">
+        <label for="signupUsername">Full Name</label>
+        <input id="signupUsername" name="username" type="text" placeholder="Harsha B" required />
+        <label for="signupEmail">Email</label>
+        <input id="signupEmail" name="email" type="email" placeholder="harsha@example.com" required />
+        <label for="signupPassword">Password</label>
+        <input id="signupPassword" name="password" type="password" placeholder="Create password" required />
+        <button class="submit" type="submit">Create Account</button>
+      </form>
+      <div class="switch">Already have an account? <a href="#" id="openLoginFromSignup">Login</a></div>
+    </div>
+  </div>
+
+  <script>
+    const loginModal = document.getElementById('loginModal');
+    const signupModal = document.getElementById('signupModal');
+    const loginErrorEl = document.getElementById('loginErrorMsg');
+    const signupErrorEl = document.getElementById('signupErrorMsg');
+    const loginRegisteredEl = document.getElementById('loginRegisteredMsg');
+
+    function showLoginModal() { loginModal.style.display = 'flex'; loginModal.setAttribute('aria-hidden','false'); }
+    function showSignupModal() { signupModal.style.display = 'flex'; signupModal.setAttribute('aria-hidden','false'); }
+    function closeLoginModal() { loginModal.style.display = 'none'; loginModal.setAttribute('aria-hidden','true'); }
+    function closeSignupModal() { signupModal.style.display = 'none'; signupModal.setAttribute('aria-hidden','true'); }
+
+    ['openLogin', 'openLoginHero'].forEach(id => document.getElementById(id)?.addEventListener('click', (e) => { e.preventDefault(); showLoginModal(); }));
+    ['openSignup', 'openSignupHero'].forEach(id => document.getElementById(id)?.addEventListener('click', (e) => { e.preventDefault(); showSignupModal(); }));
+    document.getElementById('closeLogin')?.addEventListener('click', closeLoginModal);
+    document.getElementById('closeSignup')?.addEventListener('click', closeSignupModal);
+    document.getElementById('openSignupFromLogin')?.addEventListener('click', (e) => { e.preventDefault(); closeLoginModal(); showSignupModal(); });
+    document.getElementById('openLoginFromSignup')?.addEventListener('click', (e) => { e.preventDefault(); closeSignupModal(); showLoginModal(); });
+
+    [loginModal, signupModal].forEach(modal => {
+      modal?.addEventListener('click', (ev) => {
+        if (ev.target === modal) {
+          modal.style.display = 'none';
+          modal.setAttribute('aria-hidden','true');
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape') {
+        closeLoginModal();
+        closeSignupModal();
+      }
+    });
+
+    const SERVER_SHOW_LOGIN = {{ "true" if show_login else "false" }};
+    const SERVER_SHOW_SIGNUP = {{ "true" if show_signup else "false" }};
+    const SERVER_SIGNUP_ERROR = {{ signup_error|tojson }};
+    const SERVER_LOGIN_ERROR = {{ login_error|tojson }};
+    const SERVER_REGISTERED = {{ "true" if registered else "false" }};
+
+    if (SERVER_SHOW_SIGNUP) {
+      if (SERVER_SIGNUP_ERROR) {
+        signupErrorEl.textContent = SERVER_SIGNUP_ERROR;
+        signupErrorEl.style.display = 'block';
+      }
+      showSignupModal();
+    }
+
+    if (SERVER_SHOW_LOGIN) {
+      if (SERVER_LOGIN_ERROR) {
+        loginErrorEl.textContent = SERVER_LOGIN_ERROR;
+        loginErrorEl.style.display = 'block';
+      }
+      if (SERVER_REGISTERED) loginRegisteredEl.style.display = 'block';
+      showLoginModal();
+    }
+  </script>
+</body>
+</html>

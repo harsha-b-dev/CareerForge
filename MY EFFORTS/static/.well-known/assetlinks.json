@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.bhoothara.careerpredictor",
+      "sha256_cert_fingerprints": [
+        "5B:09:8A:01:42:EC:18:6D:55:A6:97:7E:9C:FA:8D:CC:1E:DF:65:7A:ED:6C:27:C4:C7:E0:A0:6C:5D:3D:5D:B8"
+      ]
+    }
+  }
+]
