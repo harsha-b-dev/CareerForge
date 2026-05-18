@@ -55,6 +55,12 @@ Start Command: gunicorn app:app --bind 0.0.0.0:$PORT
 
 After deployment, open the Render URL and confirm it shows the CareerForge home page.
 
+Live demo:
+
+```text
+https://careerforge-akvt.onrender.com
+```
+
 ## Android APK
 
 The Android app is configured as:
@@ -62,7 +68,7 @@ The Android app is configured as:
 ```text
 App name: CareerForge
 Package id: com.bhoothara.careerforge
-Backend URL: https://careerforge.onrender.com
+Backend URL: https://careerforge-akvt.onrender.com
 ```
 
 If Render gives a different URL, update `MY EFFORTS/capacitor.config.json`, then run:

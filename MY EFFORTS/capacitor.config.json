@@ -4,7 +4,7 @@
   "webDir": "build",
   "bundledWebRuntime": false,
   "server": {
-    "url": "https://careerforge.onrender.com",
+    "url": "https://careerforge-akvt.onrender.com",
     "cleartext": false
   }
 }
