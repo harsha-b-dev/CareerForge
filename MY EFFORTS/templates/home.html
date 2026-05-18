@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="manifest" href="{{ url_for('serve_manifest') }}">
+  <meta name="theme-color" content="#0f766e">
   <title>CareerForge</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -522,6 +524,11 @@
       }
       if (SERVER_REGISTERED) loginRegisteredEl.style.display = 'block';
       showLoginModal();
+    }
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(console.error);
+      });
     }
   </script>
 </body>

@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="manifest" href="{{ url_for('serve_manifest') }}">
+  <meta name="theme-color" content="#0f766e">
   <title>Offline - CareerForge</title>
   <style>
     body{font-family:Arial, sans-serif;background:#f0f4f8;color:#0b1220;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;padding:20px;}
@@ -18,5 +20,12 @@
     <p>It looks like you're not connected to the internet. You can still view some cached pages. Please check your connection and try again.</p>
     <a href="/">Go to Home</a>
   </div>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(console.error);
+      });
+    }
+  </script>
 </body>
 </html>

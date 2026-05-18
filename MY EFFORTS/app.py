@@ -504,6 +504,22 @@ def export_csv():
 def offline():
     return render_template('offline.html')
 
+@app.route("/manifest.json")
+def serve_manifest():
+    return send_from_directory(
+        os.path.join(app.root_path, "static"),
+        "manifest.json",
+        mimetype="application/manifest+json",
+    )
+
+@app.route("/sw.js")
+def serve_service_worker():
+    return send_from_directory(
+        os.path.join(app.root_path, "static"),
+        "sw.js",
+        mimetype="application/javascript",
+    )
+
 @app.route("/.well-known/assetlinks.json")
 def serve_assetlinks():
     folder = os.path.join(app.root_path, "static", ".well-known")

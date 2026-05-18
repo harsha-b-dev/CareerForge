@@ -3,6 +3,7 @@ const PRECACHE_URLS = [
   '/', 
   '/career-form',
   '/manifest.json',
+  '/static/manifest.json',
   '/offline',
   '/static/css/chip_select.css',
   '/static/js/chip_select.js',
