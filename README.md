@@ -2,6 +2,20 @@
 
 CareerForge is a Flask-based student career prediction web app with a Capacitor Android wrapper.
 
+## Screenshots
+
+### Home Page
+
+![CareerForge home page](docs/screenshots/home.png)
+
+### Create Account
+
+![CareerForge create account screen](docs/screenshots/signup.png)
+
+### Career Prediction Form
+
+![CareerForge prediction form](docs/screenshots/prediction-form.png)
+
 ## Project Structure
 
 - `MY EFFORTS/app.py` - Flask backend and web routes
